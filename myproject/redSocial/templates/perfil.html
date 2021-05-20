@@ -1,0 +1,27 @@
+{% extends 'paginaInicio.html' %}
+{% block content %}
+
+<!-- Profile -->
+<div class="profile">
+	<img src="{{ usuario.perfil.imagen.url }}">
+	<h2>@{{usuario.username}}</h2>
+	
+	{% if request.user.is_authenticated %}
+		{% if usuario.username != request.user.username %}
+			{% if usuario not in request.user.perfil.following %}
+			<button><a class="follow-button" href="{% url 'follow' usuario %}">Seguir</a></button>
+			{% else %}
+			<button><a class="follow-button" href="{% url 'unfollow' usuario %}">Dejar de seguir</a></button>
+			{% endif %}
+		{% endif %}
+	{% endif %}
+
+
+</div>
+<div class="follow">
+		<h5 style=padding: 10px; float: left; width: 45%; text-align: justify;>Post  {{ usuario.posts.count }}</h5> 
+		<h5 style=padding: 10px; float: right; width: 45%; text-align: justify;>Siguiendo  {{ usuario.perfil.following.count }}</h5>
+</div>
+
+{{block.super}}
+{% endblock %}
